@@ -337,7 +337,7 @@ configuración de productos y hoy alguien diseña cada pieza a mano, esto
 reemplaza ese paso. El pipeline se adapta a tu catálogo, tu paleta y tu slicer.
 
 **Ariel Ferrari** — desarrollo de pipelines de automatización de geometría 3D
-· [pipeline@ejemplo.com](mailto:pipeline@ejemplo.com)
+· [dantebonessi14@gmail.com](mailto:dantebonessi14@gmail.com)
 
 ---
 
