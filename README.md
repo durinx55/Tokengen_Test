@@ -336,7 +336,7 @@ Si tenés una print farm, una tienda de personalizados o un software de
 configuración de productos y hoy alguien diseña cada pieza a mano, esto
 reemplaza ese paso. El pipeline se adapta a tu catálogo, tu paleta y tu slicer.
 
-**Ariel Ferrari** — desarrollo de pipelines de automatización de geometría 3D
+**Dante Bonessi** — desarrollo de pipelines de automatización de geometría 3D
 · [dantebonessi14@gmail.com](mailto:dantebonessi14@gmail.com)
 
 ---
