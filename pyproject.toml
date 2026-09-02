@@ -33,7 +33,9 @@ dependencies = [
 
 [project.optional-dependencies]
 trace = ["vtracer>=0.6"]
-dev = ["pytest>=7.4"]
+# networkx y lxml los pide trimesh para `trimesh.load()` del 3MF; sólo hacen
+# falta en los tests, la exportación usa el escritor propio de threemf.py.
+dev = ["pytest>=7.4", "networkx>=3.0", "lxml>=4.9"]
 
 [project.scripts]
 tokengen = "tokengen.cli:main"

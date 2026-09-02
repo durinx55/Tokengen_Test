@@ -51,3 +51,32 @@ jobs:
           name: salida-py${{ matrix.python-version }}-${{ matrix.tracer }}
           path: out/
           if-no-files-found: ignore
+
+  # La matriz de arriba es sólo Linux, donde stdout siempre es UTF-8. Este job
+  # cubre el caso Windows: consola cp1252 y salida redirigida, que es donde la
+  # CLI se rompía al imprimir el banner.
+  windows:
+    runs-on: windows-latest
+    name: windows · humo
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Tests
+        run: pytest -q
+
+      - name: Humo — la demo tiene que correr con la salida redirigida
+        shell: bash
+        run: |
+          python -m tokengen demo | tee demo.log
+          test -f out/demo_input.3mf
+          test -f out/demo_input.report.json

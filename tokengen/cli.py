@@ -10,6 +10,23 @@ import sys
 from . import __version__
 from .config import COMMUNITY_MAX_COLORS, DEFAULT_PALETTE, PROFILES, Filament, TokenSpec
 
+def _forzar_salida_utf8() -> None:
+    """Evita que la salida con caracteres no-ASCII rompa el comando.
+
+    El banner, la tabla de perfiles y el informe usan `█`, `→`, `·`, `⌀`. Cuando
+    stdout no es UTF-8 —consola Windows heredada, o cualquier redirección a un
+    pipe o archivo, donde Python cae en la codificación del locale (cp1252 en
+    Windows en español)— el primer `print` levanta UnicodeEncodeError y aborta
+    antes de procesar nada. `errors="replace"` deja el peor caso en caracteres
+    de reemplazo en lugar de una traza.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, OSError, ValueError):
+            pass  # stream ya envuelto o no reconfigurable: se sigue igual
+
+
 BANNER = f"""
   ████ TokenGen {__version__} · Community Edition
   imagen → 3MF multiparte, con validación de imprimibilidad
@@ -98,6 +115,7 @@ def _spec_from_args(a) -> TokenSpec:
 
 
 def main(argv: list[str] | None = None) -> int:
+    _forzar_salida_utf8()
     args = build_parser().parse_args(argv)
 
     if args.cmd == "profiles":
