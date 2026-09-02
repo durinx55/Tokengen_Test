@@ -1,0 +1,53 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+        # Se prueba con y sin vtracer: el trazador de respaldo tiene que
+        # sostener el pipeline entero cuando no hay toolchain de Rust.
+        tracer: [vtracer, fallback]
+
+    name: py${{ matrix.python-version }} · ${{ matrix.tracer }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Instalar
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Instalar vtracer
+        if: matrix.tracer == 'vtracer'
+        run: pip install vtracer
+
+      - name: Tests
+        run: pytest -q
+
+      - name: Humo — la demo tiene que correr entera
+        run: |
+          python -m tokengen demo
+          test -f out/demo_input.3mf
+          test -f out/demo_input.report.json
+
+      - name: Guardar salidas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: salida-py${{ matrix.python-version }}-${{ matrix.tracer }}
+          path: out/
+          if-no-files-found: ignore

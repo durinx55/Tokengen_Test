@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tokengen"
+version = "0.3.0"
+description = "Imagen → 3MF multiparte para impresión multicolor, con validación de imprimibilidad"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = [
+    "3d-printing", "3mf", "multicolor", "ams", "mmu",
+    "image-to-3d", "cad-automation", "parametric", "print-farm",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Manufacturing",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+]
+dependencies = [
+    "pillow>=10.0",
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "shapely>=2.0",
+    "trimesh>=4.0",
+    "mapbox-earcut>=1.0",
+]
+
+[project.optional-dependencies]
+trace = ["vtracer>=0.6"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+tokengen = "tokengen.cli:main"
+
+[tool.setuptools]
+packages = ["tokengen"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,7 @@
+pillow>=10.0
+numpy>=1.24
+scipy>=1.10
+shapely>=2.0
+trimesh>=4.0
+mapbox-earcut>=1.0
+vtracer>=0.6 ; platform_machine != "i686"
